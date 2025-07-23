@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    profile
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" id="profileinfo">
+        <div class="container">
+            <div class="page-content page-container m-auto" id="page-content">
+                <div class="row container d-flex justify-content-center">
+                    <div class="card">
+                        <div class="bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25">
+                                    <img style="height:130px;width:130px;" src="{% static 'images/default.png' %}" class="rounded-circle" alt="User-Profile-Image">
+                                </div>
+                                <h5 class="f-w-600 text-center">Username: {{ user_detail.username }}</h5>
+                                <h5 class="f-w-600 text-center">Email: {{ user_detail.email }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="text-center my-5">
+
+        <div class="container">
+            {% if not todos_done%}
+            <h2>Due ToDos</h2>
+            <table class="table table-striped table-bordered table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for todo in todos %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{todo.title}}</td>
+                        <td>
+                            <a href="{% url 'update-todo' todo.id %}">
+                                <div class="form-check">
+                                {% if todo.is_finished == True %}
+                                    <input class="form-check-input" type="checkbox" value="" checked>
+                                    {% else %}
+                                    <input class="form-check-input" type="checkbox" value="">
+                                    {% endif %}
+                                    <label class="form-check-label text-light" for="flexCheckDefault">
+                                        Mark as Completed
+                                    </label>
+                                </div>
+                            </a>
+                        </td>
+    
+                        <td><a href="{%url 'delete-todo' todo.id %}"><i class="fa fa-trash fa-2x"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h3>All To dos are completed!!!!</h3>
+             {% endif %}
+    
+    
+    
+            <a href="{% url 'todo' %}" class="btn btn-danger">To Do</a>
+            <br><br><br>
+    
+            {% if not homework_done %}
+            <h2>Due Homeworks</h2>
+            <table class="table table-striped table-bordered table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Due</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for homework in homeworks %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{homework.subject}}</td>
+                        <td>{{homework.title}}</td>
+                        <td>{{homework.description}}</td>
+                        <td>{{homework.date}}</td>
+    
+                        <td>
+                            <a href="{% url 'update-homework' homework.id %}">
+                                <div class="form-check">
+                                {% if homework.is_finished == True %}
+                                    <input class="form-check-input" type="checkbox" value="" checked>
+                                    {% else %}
+                                     <input class="form-check-input" type="checkbox" value="" checked>
+                                     {% endif %}
+                                    <label class="form-check-label text-light" for="flexCheckDefault">
+                                        Mark as Completed
+                                    </label>
+                                </div>
+                            </a>
+                        </td>
+                        <td><a href="{% url 'delete-homework' homework.id %}"><i class="fa fa-trash fa-2x"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <h3>All To homeworks are completed!!!!</h3>
+            {% endif %}
+    
+            <a href="{% url 'homework' %}" class="btn btn-danger">Homeworks</a>
+        </div>
+    </section>
+
+<style>
+
+<!--body {-->
+<!--    background: #283747;-->
+<!--}-->
+div#profileinfo {
+    margin: 30px 0 50px 0;
+}
+#profileinfo .header{
+    color: #30c9e8;
+    text-align: center;
+    margin-bottom: -20px;
+    font-weight: 600;
+    font-size: 28px;
+}
+#page-content .btn-profile{
+    font-size: 15px;
+    padding: 7px 50px;
+    border-radius: 30px;
+    background-color: #3366cc;
+    color: #f0f0f0;
+    transition: 0.7s;
+}
+#page-content .btn-profile:hover,
+#page-content .btn-profile:focus{
+
+    color: #fff;
+    background-color: #003366;
+    box-shadow: 0px 10px 18px 0px rgba(0, 0, 0, 0.20);
+}
+
+.user-card-full {
+    overflow: hidden
+}
+.card {
+    border-radius: 5px;
+    box-shadow: 0px 10px 18px 0px rgba(0, 0, 0, 0.45);
+    border: none;
+    margin:10px 0 30px 0;
+    border-radius: 10px;
+}
+.bg-c-lite-green {
+    background: -webkit-gradient(linear, left top, right top, from(#f29263), to(#ee5a6f));
+    background: linear-gradient(to top, #00ffcc, #009999)
+}
+.user-profile {
+    padding: 25px 0
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+.m-b-25 {
+    margin-bottom: 30px;
+}
+h6 {
+    font-size: 18px;
+}
+.card .card-block p {
+    line-height: 25px !important;
+    text-align: justify;
+}
+.bg{ background-color: #f0f0f0 !important;}
+@media only screen and (min-width: 1400px) {
+    p {
+        font-size: 14px
+    }
+}
+
+.card-block {
+    padding: 1.25rem
+}
+
+.b-b-default {
+    border-bottom: 2px solid #e0e0e0 !important;
+}
+
+.m-b-20 {
+    margin-bottom: 20px
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important
+}
+
+.card .card-block p {
+    line-height: 25px
+}
+
+.m-b-10 {
+    margin-bottom: 10px
+}
+
+.text-muted {
+    color: #919aa3 !important;
+    font-size:15px;
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0
+}
+
+.f-w-600 {
+    font-weight: 600
+}
+
+.m-b-20 {
+    margin-bottom: 20px
+}
+
+.m-t-40 {
+    margin-top: 20px
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important
+}
+
+.m-b-10 {
+    margin-bottom: 10px
+}
+.m-t-40 {
+    margin-top: 20px
+}
+
+
+</style>
+{% endblock %}
